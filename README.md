@@ -1,149 +1,63 @@
-# Fitness AI
+# Defenxa
 
-A personalized AI fitness trainer that generates workouts tailored to your goals, equipment, and training history. Built with Streamlit and powered by Claude.
+Defenxa is an Android personal-safety app (Java). It helps you send an emergency SMS with your location and plan walking routes that stay near police stations and hospitals.
 
-## Why This App?
+> **Not a replacement for emergency services.** In immediate danger, call your local emergency number (112 in India). SMS delivery, location accuracy and fall detection can fail or make mistakes.
 
-Generic chatbots forget your equipment, lose track of your progress, and don't know what day it is. This app solves that by:
+## Features
 
-- **Remembering your context** - Goals, equipment, injuries, and preferences are always available
-- **Tracking your history** - Every workout is logged and used to inform future sessions
-- **Knowing the date** - Workouts are generated with awareness of your training schedule
-- **Structured workflows** - Purpose-built UI for generating, logging, and reviewing workouts
+- **SOS button** – sends an SMS with a Google Maps link to your last known location to up to two saved emergency contacts.
+- **Hands-free triggers** – each starts a 10-second countdown with a Cancel button before the SMS is sent:
+   - Press **Volume Down 3 times** (uses an Android Accessibility Service that you enable yourself)
+   - Say **"Help me now"** (Android speech recogniser, optional)
+   - **Fall detection** (phone accelerometer + a Random Forest model, optional)
+- **Safe Route** – compares walking routes to a destination and scores each by how much of it stays within 300 m of a police station or hospital (OpenStreetMap data). It does **not** use crime data, lighting or crowd information.
+- **Safety assistant** – an offline, rule-based chatbot for app help, helplines (India) and safety tips.
 
-## Workflow
+## Tech
 
-### 1. Set Up Your Profile
+| Area | What is used |
+|---|---|
+| Language | Java (app), XML (layouts), Gradle Kotlin DSL (build), Python (model training only) |
+| IDE | Android Studio |
+| Libraries | AndroidX, Material Components, OSMDroid 6.1.18, OkHttp 4.12.0 |
+| Online services | OpenStreetMap tiles, Nominatim, Overpass API, OpenRouteService |
+| Android APIs | SmsManager, LocationManager, SpeechRecognizer, SensorManager, AccessibilityService, foreground services |
+| ML model | Random Forest (scikit-learn) exported to `app/src/main/assets/fall_forest.txt` and run in plain Java on the phone |
 
-Go to **Profile** and enter your fitness goals, available equipment, any injuries, and training preferences. This context is sent with every workout generation request.
+Not used: Firebase, Google Maps SDK, any backend server.
 
-### 2. Create a Training Plan
+## Run it
 
-Go to **Plans** and create one or more training plans. A plan might be "Strength Training" with a description of your split (e.g., Lower/Upper/Full Body rotation). You can have multiple active plans.
+1. Install Android Studio and open this folder.
+2. In `app/src/main/java/com/example/womensafetyalertsystem/`, copy `ApiConfig.java.example` to `ApiConfig.java` (remove `.example`).
+3. Paste your **OpenRouteService** key into `ORS_API_KEY` (free keys are available from openrouteservice.org). `ApiConfig.java` is listed in `.gitignore`, so your key is never uploaded.
+4. Connect an Android phone with USB debugging on (a real phone is needed for SMS, sensors and microphone) and click **Run**.
+5. In the app: register and log in (see note below), allow the permissions, and save an emergency contact. **Use your own number when testing.**
+6. For volume-button SOS, enable the app under Settings → Accessibility.
 
-### 3. Generate a Workout
+> **Login note:** the Login and Register screens only check that the form is filled in (password of 6+ characters). They do not create, store or verify accounts.
 
-On the **Generate Workout** page:
-1. Select your plan
-2. Optionally add context ("feeling tired", "want to focus on back")
-3. Click Generate - the AI creates a workout based on your profile, plan, and recent history
-4. Review and edit exercises if needed
-5. Queue the workout for logging later
+## Fall-detection model
 
-### 4. Log Your Workout
+- Trained on the **SisFall** dataset (waist-worn sensor, 38 volunteers, 19 daily activities, 15 fall types, 200 Hz), resampled to 50 Hz, using 19 accelerometer features.
+- Live rule: a 2.0 g impact peak, evaluated 2 seconds later with the Random Forest (80 trees); probability of 0.5 or higher counts as a fall.
+- Results on unseen people (live-rule replay of whole recordings): about **97.6–97.9 %** of falls caught, about **2.1–2.5 false alarms per hour** of daily activity.
+- **Limits:** the data is waist-worn lab data, so a phone in a pocket behaves differently and may trigger on rough handling. Only one elderly volunteer performed falls, so older-adult performance is not established. Treat it as a prototype.
+- Dataset: Sucerquia, López, Vargas-Bonilla, *SisFall: A Fall and Movement Dataset*, Sensors 2017, 17(1), 198. The dataset is **not** included in this repository.
 
-On the **Log Workout** page:
-1. See your queued workout with planned exercises
-2. After training, enter what you actually did in freeform text (e.g., "DL 3x5 @ 155, skipped lunges")
-3. The AI parses your notes into structured exercise entries
-4. Add duration and any notes
-5. Save to complete the workout
+## Known limitations
 
-### 5. Review History
+- Sending SMS from the background is restricted by Google Play, so this project is distributed as source and as an APK, not through Play.
+- The SOS location is the phone's last known location and may be old or missing.
+- Voice trigger and fall detection run continuously and use battery. Some phones stop background apps, so check battery settings.
+- Safe Route scores depend on what is mapped in OpenStreetMap and on public services with usage limits.
+- An optional AI chat client exists in the code but is switched off (`AI_ENABLED = false` in `LlmClient.java`).
 
-The **History** page shows all past workouts with filtering by date, status, and plan. You can also import workouts from text if you have historical training data.
+## Privacy
 
-## Getting Started
+The app keeps your saved numbers and settings on the phone and has no server of its own. See the privacy policy page for details.
 
-### Prerequisites
+## Credits
 
-- Python 3.9+
-- [uv](https://github.com/astral-sh/uv) package manager
-- Anthropic API key
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone git@github.com:AdamSomers/fitness-app.git
-   cd fitness-app
-   ```
-
-2. Create and activate a virtual environment:
-   ```bash
-   uv venv
-   source .venv/bin/activate  # On macOS/Linux
-   # or: .venv\Scripts\activate  # On Windows
-   ```
-
-3. Install dependencies:
-   ```bash
-   uv pip install -r requirements.txt
-   ```
-
-4. Create a `.env` file with your Anthropic API key:
-   ```
-   ANTHROPIC_API_KEY=your_key_here
-   ```
-
-5. Start the app:
-   ```bash
-   uv run streamlit run app.py
-   ```
-
-The app will be available at http://localhost:8501
-
-### First Run
-
-1. Go to **Profile** and fill in your details
-2. Go to **Plans** and create at least one training plan
-3. Go to **Generate Workout** to create your first AI-generated workout
-
-### Seeding Test Data
-
-To populate the app with sample data for testing:
-```bash
-uv run python seed.py          # Add sample data
-uv run python seed.py --reset  # Clear DB and reseed
-```
-
----
-
-## Developer Features
-
-### Dev Tools Page
-
-The **Dev Tools** page provides utilities for development and data management:
-
-#### Data Export/Import
-
-Export all app data (profile, plans, workouts) as JSON for backup or migration to another instance. Import restores data with conflict detection - if importing data that already exists, you can choose to overwrite or skip each conflicting item.
-
-This is useful for:
-- Backing up your training data
-- Migrating to a new machine
-- Sharing training history
-
-#### Plan Rollout Simulation
-
-Preview how a training plan evolves over time by generating a sequence of workouts. Each workout is generated with the context of previous workouts as if they were completed. This helps you:
-- Validate that your plan description produces good workout variety
-- See how the AI progresses exercises over time
-- Test changes to your plan before committing
-
-### Running Tests
-
-```bash
-uv run pytest           # Run all tests
-uv run pytest -v        # Verbose output
-uv run pytest tests/test_parsers.py  # Run specific file
-```
-
-### Project Structure
-
-```
-fitness-app/
-├── app.py                 # Main Streamlit entry point
-├── pages/                 # Streamlit pages
-│   ├── 1_Generate_Workout.py
-│   ├── 2_Log_Workout.py
-│   ├── 3_History.py
-│   ├── 4_Profile.py
-│   ├── 5_Plans.py
-│   └── 6_Dev_Tools.py
-├── services/              # Business logic
-├── database/              # SQLite repositories
-├── llm/                   # Claude API integration
-├── models/                # Domain models
-└── tests/                 # Test suite
-```
+Map data © OpenStreetMap contributors. Routing by OpenRouteService (HeiGIT). Fall dataset: SisFall (see above).

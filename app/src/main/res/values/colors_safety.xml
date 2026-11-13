@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ws_primary">#5E2A84</color>
+    <color name="ws_primary_dark">#43195F</color>
+    <color name="ws_header_end">#C2185B</color>
+    <color name="ws_accent">#E0457B</color>
+    <color name="ws_accent_soft">#FCE4EC</color>
+    <color name="ws_background">#FFF8FB</color>
+    <color name="ws_surface">#FFFFFF</color>
+    <color name="ws_text">#2B1B3A</color>
+    <color name="ws_text_muted">#7B6A8A</color>
+    <color name="ws_stroke">#E9D5EE</color>
+    <color name="ws_sos">#D32F2F</color>
+    <color name="ws_sos_halo_inner">#33E0457B</color>
+    <color name="ws_sos_halo_outer">#1AE0457B</color>
+    <color name="ws_switch_off_thumb">#BDB0C7</color>
+    <color name="ws_switch_off_track">#E4DBEA</color>
+    <color name="ws_switch_on_track">#F2A6C0</color>
+</resources>

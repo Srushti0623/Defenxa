@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Defenxa</string>
+    <string name="accessibility_service_description">Detects three presses of the Volume Down button to start an SOS countdown, even when the app is closed. Does not read your screen.</string>
+</resources>

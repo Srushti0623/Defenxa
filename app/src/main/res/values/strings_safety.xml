@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Home -->
+    <string name="ws_home_title">Welcome!</string>
+    <string name="ws_home_subtitle">Your safety, our priority</string>
+    <string name="ws_sos">SOS</string>
+    <string name="ws_sos_description">Send an emergency SOS message with my location</string>
+    <string name="ws_sos_caption">Tap to send your location to your emergency contacts right away</string>
+    <string name="ws_contacts_title">👥 Emergency contacts</string>
+    <string name="ws_contacts_subtitle">Alerts are sent to these numbers</string>
+    <string name="ws_contact_1_hint">Emergency Contact 1</string>
+    <string name="ws_contact_2_hint">Emergency Contact 2 (optional)</string>
+    <string name="ws_save_contacts">Save contacts</string>
+    <string name="ws_protection_title">🛡️ Hands-free protection</string>
+    <string name="ws_protection_subtitle">More ways to call for help</string>
+    <string name="ws_voice_title">Voice trigger</string>
+    <string name="ws_voice_subtitle">Say “Help me now” to start an SOS countdown</string>
+    <string name="ws_voice_switch">Turn voice trigger on or off</string>
+    <string name="ws_fall_title">Fall detection</string>
+    <string name="ws_fall_subtitle">Watches your phone’s motion sensor for hard falls</string>
+    <string name="ws_fall_switch">Turn fall detection on or off</string>
+    <string name="ws_volume_title">Volume button SOS</string>
+    <string name="ws_volume_subtitle">Press Volume Down 3 times (needs Accessibility access)</string>
+    <string name="ws_route_button">📍 Plan a safer route</string>
+    <string name="ws_footer_note">If you are in immediate danger, call your local emergency number.</string>
+    <!-- Safe route -->
+    <string name="ws_route_title">Safe route</string>
+    <string name="ws_route_subtitle">Compare routes by how close they stay to police stations and hospitals</string>
+    <string name="ws_destination_hint">Where are you going?</string>
+    <string name="ws_find_route">Find safe route</string>
+    <!-- Login / Register -->
+    <string name="ws_app_name">Defenxa</string>
+    <string name="ws_login_heading">Welcome back</string>
+    <string name="ws_login_subheading">Log in to continue</string>
+    <string name="ws_email_or_phone_hint">Email or Phone Number</string>
+    <string name="ws_password_hint">Password</string>
+    <string name="ws_confirm_password_hint">Confirm Password</string>
+    <string name="ws_full_name_hint">Full Name</string>
+    <string name="ws_login_button">Login</string>
+    <string name="ws_login_register_link">Don’t have an account? Register</string>
+    <string name="ws_register_title">Create Account</string>
+    <string name="ws_register_subheading">It only takes a minute</string>
+    <string name="ws_register_button">Register</string>
+    <string name="ws_register_login_link">Already have an account? Login</string>
+    <!-- Chat -->
+    <string name="ws_chat_title">💬 Safety assistant</string>
+    <string name="ws_chat_subtitle">Safety tips and help with the app. In danger, press SOS or call 112.</string>
+    <string name="ws_chat_hint">Ask about safety or the app</string>
+    <string name="ws_chat_send">Send</string>
+    <string name="ws_chat_button">💬 Safety assistant</string>
+</resources>

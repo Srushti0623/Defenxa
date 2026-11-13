@@ -1,0 +1,11 @@
+package com.example.womensafetyalertsystem;
+
+/**
+ * Template for API keys.
+ * Copy this file to ApiConfig.java (same folder, remove ".example") and paste your keys.
+ * ApiConfig.java is listed in .gitignore so that your real keys are never uploaded to GitHub.
+ */
+public class ApiConfig {
+    public static final String ORS_API_KEY = "PASTE_YOUR_ORS_KEY_HERE";
+    public static final String ANTHROPIC_API_KEY = "PASTE_YOUR_ANTHROPIC_KEY_HERE";
+}
